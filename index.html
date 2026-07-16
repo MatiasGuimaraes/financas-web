@@ -266,19 +266,20 @@ const MESES   = ['Novembro','Dezembro','Janeiro','Fevereiro','Março','Abril','M
 const MESES_S = ['Nov','Dez','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
 // ── ESTADO GLOBAL ─────────────────────────────────────────────
-let curIdx    = 6;
+// ESTADO GLOBAL
+// Lê o relógio do dispositivo e cria um índice absoluto (ex: 2026 * 12 + 6 = 24318)
+const dataAtual = new Date();
+let curIdx = (dataAtual.getFullYear() * 12) + dataAtual.getMonth();
+
 let curTipo   = 'despesa';
 let activeTab = 'mensal';
 let lineChart = null;
 
-let lancamentosDB = [];
-let categoriasDB  = [];
-let editCtxId     = null; // Guarda o ID do item individual a ser editado
-let editCtxIds    = null; // NOVO: Guarda os IDs para edição em lote (Parcelas)
-let parcelasGlobais = {}; // NOVO: Guarda as parcelas agrupadas
-
 // ── NAVEGAÇÃO ─────────────────────────────────────────────────
-function changeMonth(d){ curIdx=Math.max(0,Math.min(13,curIdx+d)); render(); }
+function changeMonth(d){ 
+  curIdx += d; 
+  render(); 
+}
 
 function setTab(tab,btn){
   activeTab = tab;
@@ -297,10 +298,8 @@ function toggleParc() {
 
 // ── MATEMÁTICA E HELPERS ───────────────────────────────────────
 function obterAnoMesPorIdx(idx) {
-  const data = new Date();
-  let ano = data.getFullYear();
-  let mes = 11 + idx; 
-  if (mes > 12) { mes -= 12; ano += 1; }
+  const ano = Math.floor(idx / 12);
+  const mes = (idx % 12) + 1; // Soma 1 porque os meses no JavaScript começam em 0
   return `${ano}-${String(mes).padStart(2, '0')}`;
 }
 
@@ -330,7 +329,9 @@ function getInvest(idx) {
 
 // ── RENDERIZAÇÃO DA TELA ──────────────────────────────────────
 function render(){
-  document.getElementById('cur-month').textContent = MESES[curIdx];
+  const nomeMes = MESES[curIdx % 12];
+  const anoAtual = Math.floor(curIdx / 12);
+  document.getElementById('cur-month').textContent = `${nomeMes} ${anoAtual}`;
   if(activeTab === 'mensal') renderMensal();
   else if(activeTab === 'anual') renderAnual();
   else if(activeTab === 'parcelas') renderParcelas();
