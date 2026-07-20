@@ -262,12 +262,13 @@ canvas{width:100%!important}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-const MESES   = ['Novembro','Dezembro','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const MESES_S = ['Nov','Dez','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MESES_S = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
 // ── ESTADO GLOBAL ─────────────────────────────────────────────
 // ESTADO GLOBAL
 // Lê o relógio do dispositivo e cria um índice absoluto (ex: 2026 * 12 + 6 = 24318)
+// ── ESTADO GLOBAL ─────────────────────────────────────────────
 const dataAtual = new Date();
 let curIdx = (dataAtual.getFullYear() * 12) + dataAtual.getMonth();
 
